@@ -3,22 +3,28 @@ module Tests exposing (..)
 import Test exposing (..)
 import Expect
 import String
-import App
+import App exposing (init)
 
 
 all : Test
 all =
     describe "The shopping cart"
-        [ test "" <|
+        [ test "Adding apple to cart" <|
             \() ->
-                
-        , test "Adding fruits to the basket" <|
-            \() ->
-                Expect.equal 10 (3 + 7)
-        , test "String.left" <|
-            \() ->
-                Expect.equal "a" (String.left 1 "abcdefg")
-        , test "This test should fail" <|
-            \() ->
-                Expect.fail "failed as expected!"
+                case List.head init.availableFruit of
+                    Just apple ->
+                        init
+                            |> App.update (App.AddToCart apple)
+                            |> .cart
+                            |> Expect.equal
+                                [ { name = "Apple"
+                                  , picture = "http://i.imgur.com/MxLIWN9.png"
+                                  , price = 25
+                                  , discount = Nothing
+                                  , count = 1
+                                  }
+                                ]
+
+                    Nothing ->
+                        Expect.fail "The list of initially available fruits is empty"
         ]

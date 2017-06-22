@@ -120,6 +120,7 @@ init =
 
 type Msg
     = AddToCart Fruit
+    | RemoveFromCart Fruits
 
 
 addFruitToCart : Fruit -> List Fruits -> List Fruits
@@ -152,6 +153,27 @@ update msg model =
     case msg of
         AddToCart fruit ->
             { model | cart = addFruitToCart fruit model.cart }
+
+        RemoveFromCart fruit ->
+            { model
+                | cart =
+                    (if fruit.count > 1 then
+                        model.cart
+                            |> List.map
+                                (\f ->
+                                    if f == fruit then
+                                        { f | count = f.count - 1 }
+                                    else
+                                        f
+                                )
+                     else
+                        model.cart
+                            |> List.filter
+                                (\f ->
+                                    f /= fruit
+                                )
+                    )
+            }
 
 
 
@@ -246,6 +268,7 @@ view model =
                                         , th [] [ text "Price" ]
                                         , th [] [ text "Qty" ]
                                         , th [] [ text "Total" ]
+                                        , th [] []
                                         ]
                                      ]
                                         ++ (model.cart
@@ -257,6 +280,7 @@ view model =
                                                             , td [] [ text (formatPrice item.price) ]
                                                             , td [] [ text (toString item.count) ]
                                                             , td [] [ text (formatPrice <| item.price * item.count) ]
+                                                            , td [] [ a [ class "button is-danger", onClick (RemoveFromCart item) ] [ text "remove" ] ]
                                                             ]
                                                     )
                                            )
