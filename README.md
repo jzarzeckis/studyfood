@@ -1,4 +1,5 @@
 ## The fruit basket
+![screenshot](http://i.imgur.com/wfHg1Is.png)
 ### Accessing the already compiled version
 The compiled version of the app can be seen in the `dist` directory. It has an index.html file, which contains the app
 
