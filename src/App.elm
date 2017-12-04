@@ -19,7 +19,7 @@ import Html
         , td
         , th
         )
-import Html.Attributes exposing (src, class)
+import Html.Attributes exposing (src, class, style)
 import Html.Events exposing (onClick)
 import String exposing (dropRight, right, padLeft)
 
@@ -50,7 +50,7 @@ formatPrice price =
                     |> right 2
                     |> padLeft 2 '0'
                )
-            ++ " $"
+            ++ " €"
 
 
 type alias Multiple a =
@@ -79,24 +79,24 @@ init : Model
 init =
     Model
         [ Fruit
+            "Burger"
+            "https://i.imgur.com/MoFBYbc.png"
+            450
+            Nothing
+        , Fruit
+            "Nuggets"
+            "https://i.imgur.com/8fOTYVA.png"
+            350
+            Nothing
+        , Fruit
+            "Greek salad"
+            "https://i.imgur.com/apkXG26.png"
+            350
+            Nothing
+        , Fruit
             "Apple"
             "http://i.imgur.com/MxLIWN9.png"
             25
-            Nothing
-        , Fruit
-            "Orange"
-            "http://i.imgur.com/ichM2Mo.png"
-            30
-            Nothing
-        , Fruit
-            "Banana"
-            "http://i.imgur.com/t4hxTmi.png"
-            15
-            Nothing
-        , Fruit
-            "Papaya"
-            "http://i.imgur.com/L99sMfH.png"
-            50
             (Just
                 ( "Three for the price of two"
                 , \count price ->
@@ -110,6 +110,33 @@ init =
                             Nothing
                 )
             )
+          --, Fruit
+          --    "Orange"
+          --    "http://i.imgur.com/ichM2Mo.png"
+          --    30
+          --    Nothing
+          --, Fruit
+          --    "Banana"
+          --    "http://i.imgur.com/t4hxTmi.png"
+          --    15
+          --    Nothing
+          --, Fruit
+          --    "Papaya"
+          --    "http://i.imgur.com/L99sMfH.png"
+          --    50
+          --    (Just
+          --        ( "Three for the price of two"
+          --        , \count price ->
+          --            let
+          --                d =
+          --                    (count // 3) * price
+          --            in
+          --                if d > 0 then
+          --                    Just d
+          --                else
+          --                    Nothing
+          --        )
+          --    )
         ]
         []
 
@@ -218,9 +245,14 @@ view model =
         div []
             [ section [ class "hero is-dark" ]
                 [ div [ class "hero-body" ]
-                    [ div [ class "container" ]
-                        [ h1 [ class "title" ] [ text "Studyfood" ]
-                        , h2 [ class "subtitle" ] [ text "Satisfying Your food Cravings during breaks" ]
+                    [ div [ class "media" ]
+                        [ div [ class "media-left" ]
+                            [ p [ class "image is-128x128", style [ ( "height", "50px" ) ] ] [ img [ src "https://i.imgur.com/92m0i0X.png" ] [] ]
+                            ]
+                        , div [ class "media-content" ]
+                            [ h1 [ class "title" ] [ text "Studyfood" ]
+                            , h2 [ class "subtitle" ] [ text "Satisfying Your food Cravings during breaks" ]
+                            ]
                         ]
                     ]
                 ]
@@ -261,7 +293,7 @@ view model =
                             )
                         , div [ class "column" ]
                             [ div [ class "content" ]
-                                ([ h1 [] [ text "Cart" ]
+                                ([ h1 [] [ text "Your order:" ]
                                  , table []
                                     ([ thead []
                                         [ th [] [ text "Item" ]
@@ -303,7 +335,10 @@ view model =
                                                 )
                                             ]
                                        )
-                                    ++ [ h2 [] [ text ("Total: " ++ formatPrice total) ] ]
+                                    ++ [ h2 [] [ text ("Total: " ++ formatPrice total) ]
+                                       , a [ class "button is-primary" ] [ text "Order!" ]
+                                       , p [] [ text "Your order will be available today at 12:50 in the individual study lounge." ]
+                                       ]
                                 )
                             ]
                         ]
