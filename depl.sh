@@ -5,5 +5,7 @@ cp -r dist docs
 
 touch docs/.nojekyll
 
+git add .
+
 git commit -a -m "update docs"
 git push
