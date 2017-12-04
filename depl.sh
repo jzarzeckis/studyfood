@@ -3,5 +3,7 @@ npm run build
 rm -r docs
 cp -r dist docs
 
+touch docs/.nojekyll
+
 git commit -a -m "update docs"
 git push
